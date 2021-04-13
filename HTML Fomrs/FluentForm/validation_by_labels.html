@@ -1,0 +1,83 @@
+<!-- START OF FORM SNIPET EXAMPLE -->
+<!-- DO NOT SEND THE CODE BELOW TO THE TENANT -->
+<!-- a similar id needs to be used as form ID in the code below -->
+<form id="fluentform_1">
+  <div data-type="name-element" data-name="first_name">
+    <div class="ff-t-container">
+      <div class="ff-t-cell">
+        <div class="ff-el-group ff-el-form-top">
+          <!--
+              The field label and input field are not under the same div
+              We will be using the "required" class name to check if this field is required
+          -->
+          <div class="ff-el-input--label ff-el-is-required asterisk-right">
+            <label for="ff_1_first_name_first_name_">First Name</label>
+          </div>
+          <div class="ff-el-input--content">
+            <!-- The name tag will be the form field name to map to, exactly as it is spelled on the form -->
+            <input type="text" name="first_name[first_name]" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- END OF FORM SNIPET EXAMPLE -->
+
+<!-- START OF SCRIPT FOR TENANT -->
+<!-- Script for tenant to include on the landing page, includes marketing.js -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript" async=""></script>
+<script>
+  // Tenant and router
+  const tenantDomain = "domain"; // REPLACE
+  const routerName = "router-name"; // REPLACE
+  // Form ID
+  const formID = "form ID here"; // REPLACE
+
+  // Find active web forms
+  var activeForm = document.getElementById(formID);
+  // Add event listener to submit
+  if (activeForm) {
+    activeForm.addEventListener("submit", handlerSubmit);
+  } else {
+    console.log(`no active forms found with formID ${formID}`);
+  }
+
+  function handlerSubmit() {
+    // Assign required tags
+    var labels = document.getElementsByTagName("LABEL");
+    for (var i = 0; i < labels.length; i++) {
+      if (labels[i].htmlFor != "") {
+        var elem = document.getElementById(labels[i].htmlFor);
+        if (elem && labels[i].parentElement.classList.contains("ff-el-is-required")) {
+          elem.required = true;
+        }
+      }
+    }
+
+    var leadObj = {};
+    var elements = activeForm.elements;
+    // Validate required form input values
+    for (var i = 0, element; (element = elements[i++]); ) {
+      if (element.required && element.value === "") {
+        console.log("form validation failed, some required fields are empty");
+        return;
+      }
+
+      // Map to Lead object
+      if (element.value) {
+        leadObj[element.name] = element.value;
+      }
+    }
+
+    console.log(leadObj);
+    // Call Chili Piper if validation passed
+    ChiliPiper.submit(tenantDomain, routerName, {
+      map: true,
+      lead: leadObj,
+      options: null,
+    });
+    return;
+  }
+</script>
+<!-- END OF SCRIPT FOR TENANT -->
