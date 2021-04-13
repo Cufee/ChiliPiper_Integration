@@ -6,7 +6,7 @@ How this works:
     - We then loop through each form element and find the corresponding field name
       - If the placeholder HTML tag is set - the value of this tag is used as a form field name
       - If the placeholder HTML tag is not set - the value from the labels dictionary created earlier is used as a form field name
-    - We save the value of each element to the dictionary and dispatch and a DOM event with this data
+    - We save the value of each element to the dictionary and dispatch a DOM event with this data
 2. - We pass the event dispatched earlier along once Pardot receives form data and all validation logic is complete.
 3. - We catch the event dispatched at Step 2 and use the data to submit the prospect to ChiliPiper for routing
 
