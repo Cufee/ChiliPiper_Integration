@@ -1,5 +1,5 @@
 // Get Lead object from form fields
-function getLeadObject() {
+function getLeadObject(tenantDomain, tenantRouter, form) {
   // Loop through all form elements and map
   var data = {
     CPTenantDomain: tenantDomain,
