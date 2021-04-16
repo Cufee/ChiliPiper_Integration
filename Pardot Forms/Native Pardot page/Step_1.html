@@ -12,14 +12,10 @@
   //
   // Submit button click handler
   function submitHandler(event) {
-      // Post DOM message
-      window.parent.postMessage(
-      {
-          message: "PARDOT_DATA_READY",
-          getLeadObject()
-      },
-      "*"
-      );
+    // Add URL parameters to form action
+    const params = new URLSearchParams(getLeadObject()).toString();
+    form.action = `${form.action}?${params}`;
+    console.log(form.action);
   }
   // Get form
   var form = document.querySelector(formID);
@@ -27,19 +23,19 @@
   // Retry adding the form event listener
   var count = 1;
   function addFormListener() {
-      count++;
-      if (form) {
+    count++;
+    if (form) {
       form.querySelector('input[type="submit"]').addEventListener("click", addQueryToAction);
       return;
-      } else if ((typeof retryFormSearch !== "undefined" ? retryFormSearch : true) && count < 10) {
+    } else if ((typeof retryFormSearch !== "undefined" ? retryFormSearch : true) && count < 10) {
       setTimeout(() => {
-          form = document.querySelector(formID);
-          addFormListener();
+        form = document.querySelector(formID);
+        addFormListener();
       }, 1000);
-      } else {
+    } else {
       console.log("no form found on this page, id used - " + formID);
       return;
-      }
+    }
   }
   // Get Lead object from form fields
   function getLeadObject() {
