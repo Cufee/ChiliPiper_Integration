@@ -25,7 +25,7 @@
   function addFormListener() {
     count++;
     if (form) {
-      form.querySelector('input[type="submit"]').addEventListener("click", submitHandler);
+      form.addEventListener("submit", submitHandler);
       return;
     } else if ((typeof retryFormSearch !== "undefined" ? retryFormSearch : true) && count < 10) {
       setTimeout(() => {
