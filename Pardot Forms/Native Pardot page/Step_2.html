@@ -7,10 +7,14 @@
   );
   var urlParams = new URLSearchParams(uri);
   var entries = urlParams.entries();
+  var valid = false
   for (pair of entries) {
+    if (pair[0].toLowerCase().includes("email") && pair[1].includes("@")) {
+      valid = true;
+    }
     leadValues[pair[0]] = pair[1];
   }
-  if (Object.keys(leadValues).length > 0) {
+  if (valid && Object.keys(leadValues).length > 0) {
     ChiliPiper.submit(leadValues["CPTenantDomain"], leadValues["CPTenantRouter"], {
       map: true,
       lead: leadValues,
