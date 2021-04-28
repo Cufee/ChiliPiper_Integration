@@ -1,5 +1,7 @@
 This method should be used when a Pardot form is embedded into a page using an iframe element.
 
+* When used with **WordPress**, all scripts will need to be minified to avoid issues with blank lines being replaced by `<p>` tags automatically.
+
 How this works:
 
 1.  - On form submit, we loop through all form elements and create a dictionary of Labels and their respective input field names
