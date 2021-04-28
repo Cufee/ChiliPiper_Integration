@@ -16,7 +16,7 @@
     window.parent.postMessage(
       {
         message: "PARDOT_DATA_READY",
-        getLeadObject()
+        data: getLeadObject(),
       },
       "*"
     );
@@ -54,7 +54,7 @@
       labelsDict[label.htmlFor] = stripText(label.textContent);
     });
     // Fill lead object
-    for (var i = 0, elem; (elem = form.elements[i++]);) {
+    for (var i = 0, elem; (elem = form.elements[i++]); ) {
       var field_name = undefined; // Reset field name - this was not being reset for some reason
       if (elem.type.includes("submit") || elem.type.includes("fieldset")) {
         continue;
@@ -75,9 +75,12 @@
         }
       } else if (elem.type === "hidden" || elem.parentElement.className.includes("hidden")) {
         // Get the field name from class name
-        var field_classes = elem.parentElement.className.split(" ").filter(value => !["", "form-field", "pd-hidden", "hidden"].includes(value));
+        var field_classes = elem.parentElement.className
+          .split(" ")
+          .filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
         for (var c in field_classes) {
-          if (field_classes[c].startsWith("CP_")) { // find a class with CP_ prefix - recommended
+          if (field_classes[c].startsWith("CP_")) {
+            // find a class with CP_ prefix - recommended
             field_name = field_classes[c];
             break;
           }
