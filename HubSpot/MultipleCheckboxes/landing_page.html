@@ -1,0 +1,56 @@
+<!-- START OF SCRIPT FOR TENANT -->
+<!-- Script for tenant to include on the landing page, includes marketing.js -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript" async=""></script>
+<script>
+  // Tenant and router
+  const tenantDomain = "domain"; // REPLACE
+  const routerName = "router-name"; // REPLACE
+  // Form ID
+  const formID = "form ID here"; // REPLACE
+
+  // Find active web forms
+  var activeForm = document.getElementById(formID);
+  // Add event listener to submit
+  if (activeForm) {
+    activeForm.addEventListener("submit", handlerSubmit);
+  } else {
+    console.log(`no active forms found with formID ${formID}`);
+  }
+
+  function handlerSubmit() {
+    var leadObj = {};
+    var elements = activeForm.elements;
+    // Validate required form input values
+    for (var i = 0, element; (element = elements[i++]); ) {
+      if (element.required && element.value === "") {
+        console.log("form validation failed, some required fields are empty");
+        return;
+      }
+      // Map to lead object
+      switch (element.type) {
+        // Skip buttons
+        case "button" || "submit":
+          continue;
+        // Handle checkboxes
+        case "checkbox":
+          if (element.checked && leadObj[element.name]) {
+            leadObj[element.name] = leadObj[element.name] += "," + element.value;
+          } else if (element.checked) {
+            leadObj[element.name] = element.value;
+          }
+          continue;
+        // All other inputs
+        default:
+          if (element.value) {
+            leadObj[element.name] = element.value;
+          }
+          continue;
+      }
+    }
+    //Call Chili Piper if validation passed
+    console.log(leadObj);
+    ChiliPiper.submit(tenantDomain, routerName, { map: true, lead: leadObj });
+    return;
+  }
+</script>
+<!-- END OF SCRIPT FOR TENANT -->
