@@ -7,7 +7,7 @@
   );
   var urlParams = new URLSearchParams(uri);
   var entries = urlParams.entries();
-  var valid = false
+  var valid = false;
   for (pair of entries) {
     if (pair[0].toLowerCase().includes("email") && pair[1].includes("@")) {
       valid = true;

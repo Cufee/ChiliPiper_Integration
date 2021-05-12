@@ -16,7 +16,14 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
       continue;
     } else if (elem.type.includes("select")) {
       // Get the field name from label or element text
-      var field_name = (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
+      var field_classes = elem.parentElement.className.split(" ");
+      var field_name;
+      for (var i in field_classes) {
+        if (field_classes[i].includes("CP_")) {
+          field_name = field_classes[i];
+        }
+      }
+      field_name = field_name || (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -48,7 +55,14 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
       data[field_name] = (v = elem.value) ? v : "[not provided]";
     } else {
       // Get the field name from label or element placeholder
-      var field_name = (n = stripText(elem.placeholder)) ? n : labelsDict[elem.name];
+      var field_classes = elem.parentElement.className.split(" ");
+      var field_name;
+      for (var i in field_classes) {
+        if (field_classes[i].includes("CP_")) {
+          field_name = field_classes[i];
+        }
+      }
+      field_name = field_name || (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);

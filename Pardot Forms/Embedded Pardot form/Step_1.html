@@ -60,7 +60,10 @@
         continue;
       } else if (elem.type.includes("select")) {
         // Get the field name from label or element text
-        field_name = (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
+        var field_name =
+          parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
+            ? n
+            : labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -75,16 +78,10 @@
         }
       } else if (elem.type === "hidden" || elem.parentElement.className.includes("hidden")) {
         // Get the field name from class name
-        var field_classes = elem.parentElement.className
-          .split(" ")
-          .filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
-        for (var c in field_classes) {
-          if (field_classes[c].startsWith("CP_")) {
-            // find a class with CP_ prefix - recommended
-            field_name = field_classes[c];
-            break;
-          }
-        }
+        var field_name =
+          parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
+            ? n
+            : labelsDict[elem.name];
         if (!field_name) {
           if (field_classes.length < 1) {
             if (typeof debugMessages !== "undefined" ? debugMessages : true) {
@@ -92,15 +89,18 @@
             }
             continue;
           }
-          field_name = field_classes[0]; // Use the first class as name - may overwrite
+          field_name = (e = elem.parentElement.className.split(" ")) ? e[0] : undefined; // Use the first class as name - may overwrite
         }
         // Save to lead obj
-        if (elem.value) {
+        if (elem.value && field_name) {
           data[field_name] = (v = elem.value) ? v : "[not provided]";
         }
       } else {
         // Get the field name from label or element placeholder
-        field_name = (n = stripText(elem.placeholder)) ? n : labelsDict[elem.name];
+        var field_name =
+          parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
+            ? n
+            : labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -132,5 +132,16 @@
       if (+match === 0) return "";
       return match.toUpperCase();
     });
+  }
+  // Get field name from parent class
+  function parseClassNames(className) {
+    var field_classes = className
+      .split(" ")
+      .filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
+    for (var i in field_classes) {
+      if (field_classes[i].includes("CP_")) {
+        return field_classes[i];
+      }
+    }
   }
 </script>
