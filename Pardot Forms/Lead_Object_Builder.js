@@ -12,18 +12,15 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
   });
   // Fill lead object
   for (var i = 0, elem; (elem = form.elements[i++]); ) {
+    var field_name; // Reset field name - this was not being reset for some reason
     if (elem.type.includes("submit") || elem.type.includes("fieldset")) {
       continue;
     } else if (elem.type.includes("select")) {
       // Get the field name from label or element text
-      var field_classes = elem.parentElement.className.split(" ");
-      var field_name;
-      for (var i in field_classes) {
-        if (field_classes[i].includes("CP_")) {
-          field_name = field_classes[i];
-        }
-      }
-      field_name = field_name || (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
+      var field_name =
+        parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
+          ? n
+          : labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -38,13 +35,7 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
       }
     } else if (elem.parentElement.className.includes("hidden")) {
       // Get the field name from class name
-      var field_classes = elem.parentElement.className.split(" ");
-      var field_name;
-      for (var i in field_classes) {
-        if (field_classes[i].includes("CP_")) {
-          field_name = field_classes[i];
-        }
-      }
+      var field_name = parseClassNames(elem.parentElement.className);
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -55,14 +46,8 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
       data[field_name] = (v = elem.value) ? v : "[not provided]";
     } else {
       // Get the field name from label or element placeholder
-      var field_classes = elem.parentElement.className.split(" ");
-      var field_name;
-      for (var i in field_classes) {
-        if (field_classes[i].includes("CP_")) {
-          field_name = field_classes[i];
-        }
-      }
-      field_name = field_name || (n = stripText(elem.options[0].text)) ? n : labelsDict[elem.name];
+      var field_name =
+        parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -94,4 +79,16 @@ function camelText(str) {
     if (+match === 0) return "";
     return match.toUpperCase();
   });
+}
+// Get field name from parent class
+function parseClassNames(className) {
+  var field_classes = className
+    .split(" ")
+    .filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
+  for (var i in field_classes) {
+    if (field_classes[i].includes("CP_")) {
+      return field_classes[i];
+    }
+  }
+  return undefined;
 }

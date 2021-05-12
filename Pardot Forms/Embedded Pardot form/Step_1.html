@@ -42,7 +42,7 @@
     }
   }
   // Get Lead object from form fields
-  function getLeadObject() {
+  function getLeadObject(tenantDomain, tenantRouter, form) {
     // Loop through all form elements and map
     var data = {
       CPTenantDomain: tenantDomain,
@@ -55,7 +55,7 @@
     });
     // Fill lead object
     for (var i = 0, elem; (elem = form.elements[i++]); ) {
-      var field_name = undefined; // Reset field name - this was not being reset for some reason
+      var field_name; // Reset field name - this was not being reset for some reason
       if (elem.type.includes("submit") || elem.type.includes("fieldset")) {
         continue;
       } else if (elem.type.includes("select")) {
@@ -76,31 +76,21 @@
         } else {
           data[field_name] = elem.options[elem.selectedIndex].text;
         }
-      } else if (elem.type === "hidden" || elem.parentElement.className.includes("hidden")) {
+      } else if (elem.parentElement.className.includes("hidden")) {
         // Get the field name from class name
-        var field_name =
-          parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
-            ? n
-            : labelsDict[elem.name];
+        var field_name = parseClassNames(elem.parentElement.className);
         if (!field_name) {
-          if (field_classes.length < 1) {
-            if (typeof debugMessages !== "undefined" ? debugMessages : true) {
-              console.log("failed to find a valid field name for " + elem.name);
-            }
-            continue;
+          if (typeof debugMessages !== "undefined" ? debugMessages : true) {
+            console.log("failed to find a valid field name for " + elem.name);
           }
-          field_name = (e = elem.parentElement.className.split(" ")) ? e[0] : undefined; // Use the first class as name - may overwrite
+          continue;
         }
         // Save to lead obj
-        if (elem.value && field_name) {
-          data[field_name] = (v = elem.value) ? v : "[not provided]";
-        }
+        data[field_name] = (v = elem.value) ? v : "[not provided]";
       } else {
         // Get the field name from label or element placeholder
         var field_name =
-          parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
-            ? n
-            : labelsDict[elem.name];
+          parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -128,7 +118,7 @@
   }
   // Make text more readable
   function camelText(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
       if (+match === 0) return "";
       return match.toUpperCase();
     });
@@ -143,5 +133,6 @@
         return field_classes[i];
       }
     }
+    return undefined;
   }
 </script>
