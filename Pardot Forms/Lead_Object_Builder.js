@@ -18,9 +18,7 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
     } else if (elem.type.includes("select")) {
       // Get the field name from label or element text
       var field_name =
-        parseClassNames(elem.parentElement.className) || (n = stripText(elem.options[0].text))
-          ? n
-          : labelsDict[elem.name];
+        parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -47,7 +45,7 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
     } else {
       // Get the field name from label or element placeholder
       var field_name =
-        parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
+        parseClassNames(elem.parentElement.className) || stripText(elem.placeholder) || labelsDict[elem.name];
       if (!field_name) {
         if (typeof debugMessages !== "undefined" ? debugMessages : true) {
           console.log("failed to find a valid field name for " + elem.name);
@@ -56,9 +54,9 @@ function getLeadObject(tenantDomain, tenantRouter, form) {
       }
       // Save to lead obj
       if (elem.type.includes("checkbox")) {
-        data[field_name] = (v = elem.checked) ? v : false;
+        data[field_name] = elem.checked || "[not provided]";
       } else {
-        data[field_name] = (v = elem.value) ? v : "[not provided]";
+        data[field_name] = elem.value || "[not provided]";
       }
     }
   }
