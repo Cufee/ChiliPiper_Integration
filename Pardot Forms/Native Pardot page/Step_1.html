@@ -13,7 +13,7 @@
   // Submit button click handler
   function submitHandler(event) {
     // Add URL parameters to form action
-    const params = new URLSearchParams(getLeadObject()).toString();
+    const params = new URLSearchParams(getLeadObject(tenantDomain, tenantRouter, form)).toString();
     form.action = `${form.action}?${params}`;
     console.log(form.action);
   }
