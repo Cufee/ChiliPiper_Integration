@@ -74,9 +74,9 @@
         } else {
           data[field_name] = elem.options[elem.selectedIndex].text;
         }
-      } else if (elem.parentElement.className.includes("hidden")) {
+      } else if (elem.type === "hidden" || elem.parentElement.className.includes("hidden")) {
         // Get the field name from class name
-        var field_name = parseClassNames(elem.parentElement.className);
+        var field_name = parseClassNames(elem.parentElement.className) || elem.name;
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
