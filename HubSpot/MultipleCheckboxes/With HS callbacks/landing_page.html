@@ -1,0 +1,36 @@
+<!-- replace your current hubspot embed form code with the below, replacing the portalId and formId from your account in
+lines 18 & 19 below -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script>
+  function addToData(data, el) {
+    const isArray = Array.isArray(data[el.name]);
+    const exists = el.name in data;
+    if (!exists) {
+      return (data[el.name] = el.value);
+    }
+    if (isArray) {
+      return data[el.name].push(el.value);
+    } else {
+      return (data[el.name] = [data[el.name], el.value]);
+    }
+  }
+  hbspt.forms.create({
+    //portalId and formId are unique to your hubspot account and form
+    portalId: "",
+    formId: "",
+    // replace the above portalId and formId with the values specific to your Hubspot form
+    onFormSubmit: function ($form) {
+      var data = {};
+      $form.serializeArray().forEach(function (el) {
+        addToData(data, el);
+      });
+      ChiliPiper.submit("tenant", "router", {
+        //title and titleStyle are overridden by
+        //title: 'Thanks! What time works best for a quick call?',
+        //titleStyle: 'Roboto 22px #EA5938',
+        map: true,
+        lead: data,
+      });
+    },
+  });
+</script>
