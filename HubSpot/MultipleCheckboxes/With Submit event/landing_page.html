@@ -34,7 +34,7 @@
         // Handle checkboxes
         case "checkbox":
           if (element.checked && leadObj[element.name]) {
-            leadObj[element.name] = leadObj[element.name] += "," + element.value;
+            leadObj[element.name] = leadObj[element.name] += ";" + element.value;
           } else if (element.checked) {
             leadObj[element.name] = element.value;
           }
