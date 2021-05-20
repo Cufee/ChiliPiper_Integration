@@ -13,7 +13,7 @@
     // Validate required form input values
     for (var i = 0, element; (element = elements[i++]); ) {
       if (leadObj[element.name]) {
-        leadObj[element.name] = leadObj[element.name] + "," + element.value;
+        leadObj[element.name] = leadObj[element.name] + ";" + element.value;
       } else {
         leadObj[element.name] = element.value;
       }
