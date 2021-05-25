@@ -6,7 +6,7 @@
   const tenantDomain = "domain"; // REPLACE
   const routerName = "router-name"; // REPLACE
   // Form ID
-  const formID = "form ID here"; // REPLACE
+  const formID = "hsForm_c2700ee5-f87d-4e85-af26-ac4bc33b01c4"; // REPLACE
 
   // Find active web forms
   var activeForm = document.getElementById(formID);
@@ -16,13 +16,12 @@
   } else {
     console.log(`no active forms found with formID ${formID}`);
   }
-
   function handlerSubmit() {
     var leadObj = {};
     var elements = activeForm.elements;
     // Validate required form input values
     for (var i = 0, element; (element = elements[i++]); ) {
-      if (element.required && element.value === "") {
+      if ((element.required || element.className.includes("mktoRequired")) && element.value === "") {
         console.log("form validation failed, some required fields are empty");
         return;
       }
@@ -34,7 +33,7 @@
         // Handle checkboxes
         case "checkbox":
           if (element.checked && leadObj[element.name]) {
-            leadObj[element.name] = leadObj[element.name] += "," + element.value;
+            leadObj[element.name] = leadObj[element.name] += ";" + element.value;
           } else if (element.checked) {
             leadObj[element.name] = element.value;
           }
@@ -49,7 +48,25 @@
     }
     //Call Chili Piper if validation passed
     console.log(leadObj);
-    ChiliPiper.submit(tenantDomain, routerName, { map: true, lead: leadObj });
+    var leadFixed = {
+      FirstName: leadObj.firstname,
+      LastName: leadObj.lastname,
+      Email: leadObj.email,
+      Phone: leadObj.phone,
+      NAPT__c: leadObj.rental_property_type,
+      Customer_Profile__c: leadObj.customer_profile,
+      Are_you_a_U_S_or_Canadian_citizen__c: leadObj.nac__c,
+      Stage__c: leadObj.stage__c,
+      Property_City__c: leadObj.property_city,
+      Property_State__c: leadObj.property_state,
+      Property_Country__c: leadObj.property_country,
+      Will_rent_property_4_weeks_annually__c: leadObj.will_rent_property_4__weeks_annually_,
+    };
+    console.log(leadFixed);
+    ChiliPiper.submit(tenantDomain, routerName, {
+      map: true,
+      lead: leadFixed,
+    });
     return;
   }
 </script>
