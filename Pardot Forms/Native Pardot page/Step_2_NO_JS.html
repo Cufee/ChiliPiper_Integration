@@ -27,7 +27,7 @@
         },
       }),
     })
-      .then((res) => res.json)
+      .then((res) => res.json())
       .then((data) => {
         // Redirect prospect to calendar link
         const routeURL = data.body.url;
