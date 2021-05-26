@@ -1,0 +1,36 @@
+<!-- Add the Following Code to the Parent Webpage in which the Pardot Embed HTML code resides -->
+<script>
+  var leadObj = {};
+  //Below is the event listener that will listen for the Pardot Events
+  window.addEventListener("message", receiveMessage, false);
+  function receiveMessage(event) {
+    // Form data ready, update leadObj
+    if (event.data && event.data.message === "PARDOT_DATA_READY" && event.data.data) {
+      leadObj = event.data.data; // Update leadObj
+    }
+    // Form was submitted and validated, call ChiliPiper
+    if (event.data && event.data.message === "PARDOT_FORM_SUCCESS") {
+      // Account domain and router name are from Step #1 - no need to change it here
+      fetch("https://api.chilipiper.com/marketing/" + leadObj["CPTenantDomain"], {
+        method: "POST",
+        body: JSON.stringify({
+          form: leadObj,
+          options: {
+            router: leadObj["CPTenantRouter"],
+            map: true,
+          },
+        }),
+      })
+        .then((res) => res.json)
+        .then((data) => {
+          // Redirect prospect to calendar link
+          const routeURL = data.body.url;
+          document.location.href = routeURL;
+        })
+        .catch((e) => {
+          // Error
+          console.log(e);
+        });
+    }
+  }
+</script>
