@@ -4,6 +4,9 @@
   var formID = "#pardot-form"; // Padrot form ID, almost always is #pardot-form
   var tenantDomain = "calendar"; // Tenant domain
   var tenantRouter = "test"; // Tenant router name
+  // CP_SimPROCompany value
+  var simProValue = "";
+
   // Debugging and retry
   var debugMessages = true; // Do you want to see what data is being submitted to Chili Piper?
   var retryFormSearch = true; // Should we retry if the form is not found by id on script load
@@ -47,6 +50,7 @@
     var data = {
       CPTenantDomain: tenantDomain,
       CPTenantRouter: tenantRouter,
+      CP_SimPROCompany: simProValue,
     };
     var labelsDict = {};
     // Save label names
