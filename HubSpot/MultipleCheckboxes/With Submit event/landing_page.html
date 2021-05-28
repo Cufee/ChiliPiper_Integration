@@ -48,24 +48,9 @@
     }
     //Call Chili Piper if validation passed
     console.log(leadObj);
-    var leadFixed = {
-      FirstName: leadObj.firstname,
-      LastName: leadObj.lastname,
-      Email: leadObj.email,
-      Phone: leadObj.phone,
-      NAPT__c: leadObj.rental_property_type,
-      Customer_Profile__c: leadObj.customer_profile,
-      Are_you_a_U_S_or_Canadian_citizen__c: leadObj.nac__c,
-      Stage__c: leadObj.stage__c,
-      Property_City__c: leadObj.property_city,
-      Property_State__c: leadObj.property_state,
-      Property_Country__c: leadObj.property_country,
-      Will_rent_property_4_weeks_annually__c: leadObj.will_rent_property_4__weeks_annually_,
-    };
-    console.log(leadFixed);
     ChiliPiper.submit(tenantDomain, routerName, {
       map: true,
-      lead: leadFixed,
+      lead: leadObj,
     });
     return;
   }
