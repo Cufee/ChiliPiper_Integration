@@ -1,0 +1,39 @@
+<!-- Add the following code to the footer of your landing page with the form -->
+<script>
+  const cpTenantDomain = "[[cp_domain]]"; // REPLACE
+  const cpRouterName = "[[cp_router]]"; // REPLACE
+  //
+  // No changes needed from this point
+  //
+  // Listen for form submitted message
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormSubmit") {
+      var lead = event.data.data.reduce((obj, item) => Object.assign(obj, { [item.name]: item.value }), {});
+      console.log(lead);
+      fetch("https://api.chilipiper.com/marketing/" + cpTenantDomain, {
+        method: "POST",
+        body: JSON.stringify({
+          form: lead,
+          options: {
+            router: cpRouterName,
+            map: true,
+          },
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          // Insert the calendar into DOM
+          var calendar = document.createElement("iframe");
+          calendar.src = data.url;
+          calendar.width = "100%";
+          calendar.height = "800px";
+          document.getElementById("chiliCalendar").replaceWith(calendar);
+        })
+        .catch((e) => {
+          // Error
+          console.log(e);
+          document.getElementById("chiliCalendar").innerHTML = "Thank you!";
+        });
+    }
+  });
+</script>
