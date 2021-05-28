@@ -24,7 +24,7 @@
         .then((res) => res.json())
         .then((data) => {
           // Redirect prospect to calendar link
-          const routeURL = data.body.url;
+          const routeURL = data.url;
           document.location.href = routeURL;
         })
         .catch((e) => {
