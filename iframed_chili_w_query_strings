@@ -1,0 +1,35 @@
+<!--This code allows you to set query string variables on Chili Piper booking URLs for tracking UTMs, where the CP link is living in an iframe within a page -->
+<!--Assumption: you have a web page with 'utm_source' & 'utm_campaign' appended as query string variables -->
+<!--example page: https://866b5ef0-b324-4440-952e-39298dc64596.hubspotpagebuilder.com/alex-queue-iframe-test?utm_source=hello&utm_campaign=face -->
+<script>
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+    return false;
+  }
+</script>
+<script>
+  var bookingLink;
+  bookingLink = "https://byte2bite.chilipiper.com/book/round-robin?utm_source=" +
+    getQueryVariable("utm_source") + "&utm_campaign=" + getQueryVariable("utm_campaign");
+  console.log(bookingLink);
+</script>
+<h2>Book a meeting!</h2>
+<iframe
+  id="chiliFrame"
+  style="margin: 0px auto; display: block"
+  xml="lang"
+  src=""
+  width="560"
+  height="715"
+  data-service="byte2bite.chilipiper"
+></iframe>
+<script>
+  document.getElementById("chiliFrame").src = bookingLink;
+</script>
