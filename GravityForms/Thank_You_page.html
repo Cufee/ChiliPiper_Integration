@@ -3,9 +3,7 @@
   const tenantDomain = "[[tenant_domain]]"; // replace
   const routerName = "[[router_name]]"; // replace
   var leadValues = {};
-  var uri = decodeURIComponent(
-    window.location.href.split("?").length > 1 ? window.location.href.split("?")[1].replace(/\+/g, " ") : ""
-  );
+  var uri = decodeURIComponent(document.location.search.replace(/\+/g, " "));
   var urlParams = new URLSearchParams(uri);
   var entries = urlParams.entries();
   var valid = false;
