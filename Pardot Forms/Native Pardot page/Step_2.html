@@ -2,19 +2,18 @@
 <script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
 <script>
   var leadValues = {};
-  var uri = decodeURIComponent(
-    window.location.href.split("?").length > 1 ? window.location.href.split("?")[1].replace(/\+/g, " ") : ""
-  );
+  var uri = decodeURIComponent(document.location.search.replace(/\+/g, " "));
   var urlParams = new URLSearchParams(uri);
   var entries = urlParams.entries();
   var valid = false;
   for (pair of entries) {
+    leadValues[pair[0]] = pair[1];
     if (pair[0].toLowerCase().includes("email") && pair[1].includes("@")) {
+      leadValues[pair[0]] = pair[1].replaceAll(" ", "+"); // fix spaces for emails
       valid = true;
     }
-    leadValues[pair[0]] = pair[1];
   }
-  if (valid && Object.keys(leadValues).length > 0) {
+  if (valid) {
     ChiliPiper.submit(leadValues["CPTenantDomain"], leadValues["CPTenantRouter"], {
       map: true,
       lead: leadValues,

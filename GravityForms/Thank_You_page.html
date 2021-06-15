@@ -9,7 +9,7 @@
   var valid = false;
   for (pair of entries) {
     leadValues[pair[0]] = pair[1];
-    if (pair[0].toLowerCase().includes("email")) {
+    if (pair[0].toLowerCase().includes("email") && pair[1].includes("@")) {
       leadValues[pair[0]] = pair[1].replaceAll(" ", "+"); // fix spaces for emails
       valid = true;
     }
