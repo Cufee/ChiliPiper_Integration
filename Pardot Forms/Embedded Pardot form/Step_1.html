@@ -2,8 +2,8 @@
 <script>
   // Form ID and tenant info
   var formID = "#pardot-form"; // Padrot form ID, almost always is #pardot-form
-  var tenantDomain = "calendar"; // Tenant domain
-  var tenantRouter = "test"; // Tenant router name
+  var tenantDomain = "[[domain]]"; // REPLACE and remove square brackets
+  var tenantRouter = "[[router_name]]"; // REPLACE and remove square brackets
 
   // Debugging and retry
   var debugMessages = true; // Do you want to see what data is being submitted to Chili Piper?
@@ -61,8 +61,7 @@
         continue;
       } else if (elem.type.includes("select")) {
         // Get the field name from label or element text
-        var field_name =
-          parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
+        var field_name = parseClassNames(elem.parentElement.className) || stripText(elem.options[0].text) || labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -88,8 +87,7 @@
         data[field_name] = (v = elem.value) ? v : "[not provided]";
       } else {
         // Get the field name from label or element placeholder
-        var field_name =
-          parseClassNames(elem.parentElement.className) || stripText(elem.placeholder) || labelsDict[elem.name];
+        var field_name = parseClassNames(elem.parentElement.className) || stripText(elem.placeholder) || labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -124,9 +122,7 @@
   }
   // Get field name from parent class
   function parseClassNames(className) {
-    var field_classes = className
-      .split(" ")
-      .filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
+    var field_classes = className.split(" ").filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
     for (var i in field_classes) {
       if (field_classes[i].includes("CP_")) {
         return field_classes[i];

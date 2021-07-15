@@ -1,7 +1,7 @@
 <script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
 <script>
-  const tenantSubdomain = "[[tenant_domain]]"; // REPLACE
-  const tenantRouter = "[[tenant_router]]"; // REPLACE
+  const tenantSubdomain = "[[tenant_domain]]"; // REPLACE and remove square brackets
+  const tenantRouter = "[[tenant_router]]"; // REPLACE and remove square brackets
   MktoForms2.whenReady(function (form) {
     form.onSuccess((values) => {
       ChiliPiper.submit(tenantSubdomain, tenantRouter, { map: true });
