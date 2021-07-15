@@ -19,13 +19,14 @@
     // Submit to Pardot
     fetch(pardotHandlerURL, {
       method: "POST",
-      leadValues: "json",
-      body: data,
+      dataType: "json",
+      body: JSON.stringify(leadValues),
+      headers: { "context-type": "application/json" },
     });
     // Call Chili Piper
     ChiliPiper.submit(tenantDomain, routerName, {
-      map: true,
       lead: leadValues,
+      map: true,
     });
     console.log(leadValues);
   }
