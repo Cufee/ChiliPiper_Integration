@@ -44,8 +44,13 @@
       CPTenantDomain: tenantDomain,
       CPTenantRouter: tenantRouter,
     };
-    var labelsDict = {};
+    // Parse query params
+    const urlParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of urlParams.entries()) {
+      data[key] = value;
+    }
     // Save label names
+    var labelsDict = {};
     form.querySelectorAll("label").forEach((label) => {
       labelsDict[label.htmlFor] = stripText(label.textContent);
     });
