@@ -1,3 +1,1 @@
-* Step_1 - landing page, above Step_2 code
-* Step_2 - landing page, below Step_1 code
-* Step_3 - Thank you page
+* Set the handler success location URL to https://chili.byvko.dev/api/public/pardot/success/tenantDomain/routerName, replacing tenantDomain and routerName
