@@ -82,7 +82,8 @@
         data[field_name] = (v = elem.value) ? v : "[not provided]";
       } else {
         // Get the field name from label or element placeholder
-        var field_name = parseClassNames(elem.parentElement.className) || stripText(elem.placeholder) || labelsDict[elem.name];
+        var field_name =
+          parseClassNames(elem.parentElement.className) || stripText(elem.placeholder) || labelsDict[elem.type === "radio" ? elem.name.replace("[]", "") : elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
@@ -90,7 +91,9 @@
           continue;
         }
         // Save to lead obj
-        if (elem.type.includes("checkbox")) {
+        if (elem.type.includes("radio")) {
+          if (elem.checked === true) data[field_name] = labelsDict[elem.id];
+        } else if (elem.type.includes("checkbox")) {
           data[field_name] = elem.checked || "[not provided]";
         } else {
           data[field_name] = elem.value || "[not provided]";
