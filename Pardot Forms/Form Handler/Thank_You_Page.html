@@ -1,8 +1,6 @@
+<!-- Add the Following Code to the Parent Webpage in which the Pardot Embed HTML code resides -->
 <script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
 <script>
-  const tenantDomain = "[[tenant_domain]]"; // replace and remove square brackets
-  const routerName = "[[router_name]]"; // replace and remove square brackets
-  const pardotHandlerURL = "[[pardot_handler_url]]"; // replace and remove square brackets
   var leadValues = {};
   var uri = decodeURIComponent(document.location.search.replace(/\+/g, " "));
   var urlParams = new URLSearchParams(uri);
@@ -16,17 +14,9 @@
     }
   }
   if (valid) {
-    // Submit to Pardot
-    fetch(pardotHandlerURL, {
-      method: "POST",
-      dataType: "json",
-      body: JSON.stringify(leadValues),
-      headers: { "context-type": "application/json" },
-    });
-    // Call Chili Piper
-    ChiliPiper.submit(tenantDomain, routerName, {
-      lead: leadValues,
+    ChiliPiper.submit(leadValues["CPTenantDomain"], leadValues["CPTenantRouter"], {
       map: true,
+      lead: leadValues,
     });
     console.log(leadValues);
   }
