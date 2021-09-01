@@ -11,12 +11,15 @@
   // Find the form
   let cpForm = document.getElementById(cpFormID);
   if (!cpForm) {
+    let count = 0;
     const formSearch = setInterval(() => {
+      count++;
       cpForm = document.getElementById(cpFormID);
       if (cpForm) {
         clearInterval(formSearch);
         cpForm.addEventListener("submit", cpHandleSubmit);
       }
+      if (count > 10) clearInterval(formSearch);
     }, 500);
   } else cpForm.addEventListener("submit", cpHandleSubmit);
   // Handler function
