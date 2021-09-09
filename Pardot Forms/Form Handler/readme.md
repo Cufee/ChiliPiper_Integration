@@ -11,7 +11,6 @@ This our new method of integrating Chili Piper with any form powered by a Pardot
 
 **How to set this up:**
 * Set up your form to use the Pardot Form Handler, following Pardot documentation and help articles.
-* Add `https://chili.byvko.dev/api/public/pardot/success` or `https://chili.byvko.dev` as a trusted domain in your Pardot instance
 * From here, you have two options to route the prospect:
   1.  Redirect to your Thank You page, show a Chili Piper calendar in a modal within your website
        *  Set the success location in Pardot Form Handler to `https://chili.byvko.dev/api/public/pardot/success/tenantDomain/routerName?successLocation=https://your-thank-you-page.com`
