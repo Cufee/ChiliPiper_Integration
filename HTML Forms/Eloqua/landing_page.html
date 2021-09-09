@@ -24,6 +24,7 @@
   } else cpForm.addEventListener("submit", cpHandleSubmit);
   // Handler function
   function cpHandleSubmit(event) {
+    if (event.preventDefault) event.preventDefault();
     cpForm = document.getElementById(cpForm.id);
     if (cpPreventDefaultEvent === true) event?.preventDefault();
     // Labels dictionary
