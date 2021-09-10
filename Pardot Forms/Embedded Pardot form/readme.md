@@ -19,4 +19,6 @@ How to set this up:
 2. Add the code from Step_2.html to the **Completed Actions → Thank You Code**
 3. Add the code from Step_3.html to the **Parent Webpage** in which the Pardot Embed HTML code resides
    * Step_3_NO_JS.html can be used to avoid loading Chili Piper marketing.js script and will redirect a prospect to a booking link instead
+   * Step_3_REDIRECT.html can be used to redirect to a Thank You page before Chili Piper marketing.js script is called
+     * This will require code from Step_4_REDIRECT.html to be added anywhere on that Thank You page specified in Step_3_REDIRECT.html
 4. Map the values from the submitData object to your Chili Piper Form which is mapped to your Router

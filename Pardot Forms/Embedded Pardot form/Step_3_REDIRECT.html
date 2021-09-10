@@ -1,0 +1,27 @@
+<!-- Add the Following Code to the Parent Webpage in which the Pardot Embed HTML code resides -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script>
+  const cpThankYouPage = ""; // A link to your Thank You page
+  //
+  // No changes needed from this point
+  //
+  var leadObj = {};
+  //Below is the event listener that will listen for the Pardot Events
+  window.addEventListener("message", receiveMessage, false);
+  function receiveMessage(event) {
+    // Form data ready, update leadObj
+    if (event.data && event.data.message === "PARDOT_DATA_READY" && event.data.data) {
+      leadObj = event.data.data; // Update leadObj
+      // Parse query params
+      const urlParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of urlParams.entries()) {
+        leadObj[key] = value;
+      }
+    }
+    // Form was submitted and validated, call ChiliPiper
+    if (event.data && event.data.message === "PARDOT_FORM_SUCCESS") {
+      const params = new URLSearchParams(leadObj).toString();
+      window.location.replace(`${cpThankYouPage}?${params}`);
+    }
+  }
+</script>
