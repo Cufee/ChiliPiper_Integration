@@ -3,12 +3,14 @@
 <script>
   const cpTenantDomain = "[[cp_domain]]"; // REPLACE and remove square brackets
   const cpRouterName = "[[cp_router]]"; // REPLACE and remove square brackets
+  const cpHubspotFormID = ""; // REPLACE with a formID or leave empty to run on all forms
   //
   // No changes needed from this point
   //
   // Listen for form submitted message
   window.addEventListener("message", (event) => {
     if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormSubmit") {
+      if (cpHubspotFormID && data.id !== cpHubspotFormID) return
       var lead = event.data.data.reduce((obj, item) => Object.assign(obj, { [item.name]: item.value }), {});
       console.log(lead);
       ChiliPiper.submit(cpTenantDomain, cpRouterName, {
