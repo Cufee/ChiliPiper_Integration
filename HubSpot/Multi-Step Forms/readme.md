@@ -1,0 +1,1 @@
+This is the most universal method of integrating Chili Piper with HubSpot, it will listen to the native events emitted by HS forms on submission and after form validation was finished to call Chili Piper.
