@@ -34,7 +34,7 @@
       }
     }
     // Get form fields
-    const leadData = {};
+    const leadData = { cpTenantDomain, cpRouterName };
     for (const el of cpForm.elements) {
       if (labelsDict[el.id]?.required && !el.className.includes("LV_valid_field") && !el.type !== "hidden") {
         console.log("invalid value for", el.name);
