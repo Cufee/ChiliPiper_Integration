@@ -1,0 +1,68 @@
+<!-- Script for tenant to include on the landing page, includes marketing.js -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript" async=""></script>
+<script>
+  const cpTenantDomain = "[[tenantDomain]]"; // Chili Piper subdomain , remove brackets
+  const cpRouterName = "[[routerName]]"; // Chili Piper router API name, remove brackets
+  const cpFormID = "[[formID]]"; // ID attribute of the form without the #, remove brackets
+  const cpFormField = "[[field_name]]"; // name attribute of the form field to use as a redirect link, remove brackets
+  const cpThankYouPage = "[[redirect_page]]"; // A link to a thank you page, just the base URL with no query params, remove brackets
+  //
+  // No changes needed from this point
+  //
+  // Find the form
+  let cpForm = document.getElementById(cpFormID);
+  if (!cpForm) {
+    let count = 0;
+    const formSearch = setInterval(() => {
+      count++;
+      cpForm = document.getElementById(cpFormID);
+      x;
+      if (cpForm) {
+        clearInterval(formSearch);
+        cpForm.addEventListener("submit", cpHandleSubmit);
+      }
+      if (count > 10) clearInterval(formSearch);
+    }, 500);
+  } else cpForm.addEventListener("submit", cpHandleSubmit);
+  // Handler function
+  function cpHandleSubmit(event) {
+    cpForm = document.getElementById(cpForm.id);
+    // Labels dictionary
+    const labelElements = cpForm.querySelectorAll("label");
+    const labelsDict = {};
+    for (const l of labelElements || []) {
+      if (l.htmlFor && l.innerText) {
+        labelsDict[l.htmlFor] = { name: stripText(l.innerText), required: l.innerText.includes("*") };
+      }
+    }
+    // Get form fields
+    const leadData = {};
+    for (const el of cpForm.elements) {
+      if (labelsDict[el.id]?.required && !el.className.includes("LV_valid_field") && !el.type !== "hidden") {
+        console.log("invalid value for", el.name);
+        return;
+      }
+      switch (el.type) {
+        case "checkbox":
+          leadData[el.name] = el.checked || labelsDict[el.id];
+          break;
+        default:
+          leadData[el.name] = el.value || labelsDict[el.id];
+          break;
+      }
+    }
+    const queryString = new URLSearchParams(lead).toString();
+    form.QuerySelector(cpFormField).value = `${cpThankYouPage}?${queryString}`;
+  }
+  // Strip characters and spaces
+  function stripText(text) {
+    return camelText(text).replace(/[^\w]/gi, "");
+  }
+  // Make text more readable
+  function camelText(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
+      if (+match === 0) return "";
+      return match.toUpperCase();
+    });
+  }
+</script>
