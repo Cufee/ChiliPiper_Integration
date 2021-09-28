@@ -49,7 +49,7 @@
           break;
       }
     }
-    const queryString = new URLSearchParams(lead).toString();
+    const queryString = new URLSearchParams(leadData).toString();
     form.QuerySelector(`[name="${cpFormField}"]`).value = `${cpThankYouPage}?${queryString}`;
   }
   // Strip characters and spaces
