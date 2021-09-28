@@ -4,7 +4,7 @@
   const tenantRouter = "[[tenant_router]]"; // REPLACE and remove square brackets
   MktoForms2.whenReady(function (form) {
     form.onSuccess((values) => {
-      ChiliPiper.submit(tenantSubdomain, tenantRouter, { map: true });
+      ChiliPiper.submit(tenantSubdomain, tenantRouter, { map: true, lead: values });
       return false;
     });
   });
