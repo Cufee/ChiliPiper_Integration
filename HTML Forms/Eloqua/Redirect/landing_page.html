@@ -50,7 +50,7 @@
       }
     }
     const queryString = new URLSearchParams(leadData).toString();
-    cpForm.QuerySelector(`[name="${cpFormField}"]`).value = `${cpThankYouPage}?${queryString}`;
+    cpForm.querySelector(`[name="${cpFormField}"]`).value = `${cpThankYouPage}?${queryString}`;
   }
   // Strip characters and spaces
   function stripText(text) {
