@@ -1,0 +1,31 @@
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script type="text/javascript">
+  const cpTenantDomain = "[[tenantDomain]]"; // Chili Piper subdomain , remove brackets
+  const cpRouterName = "[[routerName]]"; // Chili Piper router API name, remove brackets
+  //
+  // No changes needed from this point
+  //
+  jQuery(document).ready(function ($) {
+    if (typeof Marionette !== "undefined") {
+      const mySubmitController = Marionette.Object.extend({
+        initialize: function () {
+          this.listenTo(Backbone.Radio.channel("forms"), "submit:response", this.actionSubmit);
+        },
+        actionSubmit: function (response) {
+          if (!response?.data?.fields_by_key) return;
+          const lead = {};
+          for (const k in response.data.fields) {
+            const n = response.data.fields[k]?.custom_name_attribute || response.data.fields[k]?.field_key;
+            const v = response.data.fields[k]?.value || "";
+            lead[n] = v;
+          }
+          console.log(lead);
+          ChiliPiper.submit(cpTenantDomain, cpRouterName, {
+            lead: lead,
+          });
+        },
+      });
+      new mySubmitController();
+    }
+  });
+</script>

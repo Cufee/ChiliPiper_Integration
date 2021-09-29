@@ -1,0 +1,1 @@
+This integration will work with Ninja Forms on WordPress pages, just place the code below an existing Ninja Form tag.

@@ -1,4 +1,4 @@
-<!-- Add the Following Code to the Parent Webpage in which the Pardot Embed HTML code resides -->
+<!-- Add the Following Code to the Thank You page -->
 <script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
 <script>
   var leadValues = {};
@@ -14,6 +14,7 @@
     }
   }
   if (valid) {
+    // No changes needed here at all
     ChiliPiper.submit(leadValues["cpTenantDomain"], leadValues["cpRouterName"], {
       map: true,
       lead: leadValues,
