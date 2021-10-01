@@ -10,7 +10,7 @@
   // Listen for form submitted message
   window.addEventListener("message", (event) => {
     if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormSubmit") {
-      if (cpHubspotFormID && data.id !== cpHubspotFormID) return
+      if (cpHubspotFormID && event.data.id !== cpHubspotFormID) return
       var lead = event.data.data.reduce((obj, item) => Object.assign(obj, { [item.name]: item.value }), {});
       console.log(lead);
       ChiliPiper.submit(cpTenantDomain, cpRouterName, {
