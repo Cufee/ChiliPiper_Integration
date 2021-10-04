@@ -12,7 +12,7 @@
           this.listenTo(Backbone.Radio.channel("forms"), "submit:response", this.actionSubmit);
         },
         actionSubmit: function (response) {
-          if (!response?.data?.fields_by_key) return;
+          if (!response?.data?.fields) return;
           const lead = {};
           for (const k in response.data.fields) {
             const n = response.data.fields[k]?.custom_name_attribute || response.data.fields[k]?.field_key;
