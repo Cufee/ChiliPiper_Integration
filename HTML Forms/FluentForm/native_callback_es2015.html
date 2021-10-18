@@ -1,0 +1,27 @@
+<!-- Script for tenant to include on the landing page, includes marketing.js -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript" async=""></script>
+<script>
+  // Adjust values below
+  var tenantDomain = "[[domain]]"; // REPLACE and remove square brackets
+  var routerName = "[[router_name]]"; // REPLACE and remove square brackets
+  var formID = "[[form_id]]"; // REPLACE and remove square brackets
+  //
+  // No changes needed from this point
+  //
+  (function ($) {
+    var form = $(`form#${formID}`);
+    form.on("fluentform_submission_success", function (event) {
+      var leadObj = {};
+      if (!event || !event.target) return console.log("Bad event target for successful form submission");
+      for (var i = 0, element; (element = elements[i++]); ) {
+        leadObj[element.name] = element.value;
+      }
+      console.log(leadObj);
+      // Call Chili Piper
+      ChiliPiper.submit(tenantDomain, routerName, {
+        map: true,
+        lead: leadObj,
+      });
+    });
+  })(jQuery);
+</script>
