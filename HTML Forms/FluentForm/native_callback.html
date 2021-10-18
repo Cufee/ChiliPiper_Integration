@@ -12,6 +12,7 @@
     const form = $(`form#${formID}`);
     form.on("fluentform_submission_success", function (event) {
       const leadObj = {};
+      if (!event?.target) return console.log("Bad event target for successful form submission");
       for (const el of event.target) {
         leadObj[el.name] = el.value;
       }
