@@ -2,5 +2,5 @@ This is a code snippet for Fluentform with custom validation.
 
 How this works:
 
-- We find all labels on the form and check if a class name "ff-el-is-required" is present, if it is - we assign a required HTML tag to the input field
-- When Submit is clicked, we check if the input field is required and if the value is equal to "". If we find a blank - we do not execute ChiliPiper call and break the loop.
+- We add a listener for the native form submission events emitted by Fluentform and wait for the submission confirmation message
+- Once the submission is confirmed, we trigger Chili Piper using the information provided by the submission event
