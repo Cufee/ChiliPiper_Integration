@@ -9,7 +9,7 @@
   // No changes needed from this point
   //
   (function ($) {
-    var form = $(`form#${formID}`);
+    var form = $("form#" + formID);
     form.on("fluentform_submission_success", function (event) {
       var leadObj = {};
       if (!event || !event.target) return console.log("Bad event target for successful form submission");
