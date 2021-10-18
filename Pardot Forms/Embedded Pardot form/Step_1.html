@@ -61,7 +61,7 @@
         continue;
       } else if (elem.type.includes("select")) {
         // Get the field name from label or element text
-        var field_name = parseClassNames(elem.parentElement.className) || stripText(elem.options[0].value || elem.options[0].text) || labelsDict[elem.name];
+        var field_name = parseClassNames(elem.parentElement.className) || elem.options[0].value || stripText(elem.options[0].text) || labelsDict[elem.name];
         if (!field_name) {
           if (typeof debugMessages !== "undefined" ? debugMessages : true) {
             console.log("failed to find a valid field name for " + elem.name);
