@@ -13,7 +13,7 @@
     form.on("fluentform_submission_success", function (event) {
       var leadObj = {};
       if (!event || !event.target) return console.log("Bad event target for successful form submission");
-      for (var i = 0, element; (element = elements[i++]); ) {
+      for (var i = 0, element; (element = event.target[i++]); ) {
         leadObj[element.name] = element.value;
       }
       console.log(leadObj);
