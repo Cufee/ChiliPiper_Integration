@@ -1,0 +1,26 @@
+<!-- Add the following code above your existing Chili Piper code -->
+<script>
+  const cpTimeoutSeconds = 60; // How many seconds to wait after the availability was loaded before redirecting
+  const cpTimeoutRedirectURL = ""; // Link to a page where a prospect will be redirected
+  const cpTimeoutIncludeQuery = true; // Should the form fields be included as query parameters when redirecting
+  //
+  // No changes needed from this point
+  //
+  let cpTimeoutStarted = false;
+  function cpSetupTimeoutListener(subdomain, router, lead) {
+    window.addEventListener("message", (event) => {
+      if (event.data.action !== "availability-loaded" || cpTimeoutStarted === true) return;
+      cpTimeoutStarted = true;
+      setTimeout(() => {
+        let url = cpTimeoutRedirectURL;
+        if (cpTimeoutIncludeQuery && typeof lead !== "undefined" && subdomain && router) {
+          lead["CPTenantDomain"] = subdomain;
+          lead["CPTenantRouter"] = router;
+          const queryString = new URLSearchParams(lead)?.toString();
+          url += "?" + queryString;
+        }
+        window.location.href = url;
+      }, timeout * 1000);
+    });
+  }
+</script>

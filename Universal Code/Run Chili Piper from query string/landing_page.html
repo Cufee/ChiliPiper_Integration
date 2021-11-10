@@ -1,0 +1,30 @@
+<!-- Add the Following Code to the page where the prospect is redirected with query string parameters -->
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script>
+  var cpDomainFallback = ""; // Default subdomain to use if query parameters did not include one
+  var cpRouterFallback = ""; // Default router name to use if query parameters did not include one
+  //
+  // No changes needed from this point
+  //
+  var leadValues = {};
+  var uri = decodeURIComponent(document.location.search.replace(/\+/g, " "));
+  var urlParams = new URLSearchParams(uri);
+  var entries = urlParams.entries();
+  var valid = false;
+  for (pair of entries) {
+    leadValues[pair[0]] = pair[1];
+    if (pair[0].toLowerCase().includes("email") && pair[1].includes("@")) {
+      leadValues[pair[0]] = pair[1].replaceAll(" ", "+"); // fix spaces for emails
+      valid = true;
+    }
+  }
+  if (valid) {
+    if (!leadValues["CPTenantDomain"]) leadValues["CPTenantDomain"] = cpDomainFallback;
+    if (!leadValues["CPTenantRouter"]) leadValues["CPTenantRouter"] = cpRouterFallback;
+    ChiliPiper.submit(leadValues["CPTenantDomain"], leadValues["CPTenantRouter"], {
+      map: true,
+      lead: leadValues,
+    });
+    console.log(leadValues);
+  }
+</script>
