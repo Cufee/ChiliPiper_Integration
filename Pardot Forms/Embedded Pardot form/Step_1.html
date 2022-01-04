@@ -95,8 +95,8 @@
           continue;
         }
         // Save to lead obj
-        if (elem.type.includes("checkbox")) {
-          data[field_name] = elem.checked || "[not provided]";
+        if (["radio", "checkbox"].includes(elem.type)) {
+          data[field_name] = typeof elem.checked !== "undefined" ? elem.checked : "[not provided]";
         } else {
           data[field_name] = elem.value || "[not provided]";
         }
