@@ -1,0 +1,36 @@
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script>
+  const cpTenantDomain = "[[cp_domain]]"; // REPLACE and remove square brackets
+  const cpRouterName = "[[cp_router]]"; // REPLACE and remove square brackets
+  //
+  // No changes needed from this point
+  //
+  // The event is submit_success so you can catch it for example:
+  jQuery(document).ready(function ($) {
+    jQuery(document).on("submit_success", function () {
+      const lead = formToLead(jQuery(this));
+      ChiliPiper.submit(cpTenantDomain, cpRouterName, { map: true, lead });
+    });
+  });
+  // Get lead data from the form object
+  function formToLead(form) {
+    const labels = {};
+    form.find("label").each(function () {
+      labels[jQuery(this).attr("for")] = stripText(jQuery(this).text());
+    });
+    const lead = {};
+    form.find("input, select, textarea").each(function () {
+      const field_name = labels[this.getAttribute("id")] || stripText(this.getAttribute("placeholder")) || this.getAttribute("id");
+      const field_value = this.value;
+      if (field_name) {
+        lead[field_name] = field_value;
+      }
+    });
+    return lead;
+  }
+  // Strip characters and spaces
+  function stripText(text) {
+    if (!text) return "";
+    return camelText(text).replace(/[^\w]/gi, "");
+  }
+</script>
