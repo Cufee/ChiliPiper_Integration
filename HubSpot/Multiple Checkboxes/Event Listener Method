@@ -1,0 +1,29 @@
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://js.chilipiper.com/marketing.js" type="text/javascript"></script>
+<script>
+function handlerSubmit(elements) {
+    var leadObj = {};
+    // Validate required form input values
+    for (var i = 0, element; (element = elements[i++]); ) {
+      if (leadObj[element.name]) {
+        leadObj[element.name] = leadObj[element.name] + ";" + element.value;
+      } else {
+        leadObj[element.name] = element.value;
+      }
+    }
+    return leadObj;
+  }
+</script>
+<script>
+var cpTenantDomain = "calendar"; // replace with your subdomain
+var cpRouterName = "prod-testing-router"; // replace with the router's name
+window.addEventListener("message", function (event) {
+   if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormSubmit") {
+      var data1 = handlerSubmit(event.data.serializeArray());
+      ChiliPiper.submit(cpTenantDomain, cpRouterName, {
+        map: true,
+        lead: data1,
+      });
+   }
+});
+</script>
