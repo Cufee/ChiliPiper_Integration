@@ -123,7 +123,7 @@
     var field_classes = className.split(" ").filter((value) => !["", "form-field", "pd-hidden", "hidden"].includes(value));
     for (var i in field_classes) {
       if (field_classes[i].includes("CP_")) {
-        return field_classes[i];
+        return field_classes[i].replace("CP_", "");
       }
     }
     return undefined;
